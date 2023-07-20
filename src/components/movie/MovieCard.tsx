@@ -1,5 +1,4 @@
 import { MovieType } from "../../model/movie.interface";
-import { ReviewType } from "../../model/review.interface";
 
 interface MovieProp {
   movie: MovieType;
