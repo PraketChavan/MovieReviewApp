@@ -5,7 +5,7 @@ interface MovieProp {
   trailerLink?: string;
 }
 
-function Movie({ name, releaseDate, trailerLink }: MovieProp) {
+function MovieCard({ name, releaseDate, trailerLink }: MovieProp) {
   return (
     <div className="card col-4">
       <div className="car-body">
@@ -20,4 +20,4 @@ function Movie({ name, releaseDate, trailerLink }: MovieProp) {
   );
 }
 
-export default Movie;
+export default MovieCard;
