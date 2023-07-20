@@ -27,7 +27,7 @@ function MovieGroup() {
 
   return (
     <>
-      <div className="row row-cols-3 row-cols-md-5 g-4">
+      <div className="row row-cols-6 row-cols-md-6">
         {movies.map((item: MovieType) => {
           return <MovieCard movie={item} />;
         })}
