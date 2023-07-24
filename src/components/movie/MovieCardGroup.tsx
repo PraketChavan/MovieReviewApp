@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Movie } from "../../api/api";
+import { MovieApi } from "../../api/api";
 import MovieCard from "./MovieCard";
 import { MovieType } from "../../model/movie.interface";
 
@@ -10,7 +10,7 @@ function MovieGroup() {
     let ignore: boolean = false;
 
     async function getMovieFromBackEnd() {
-      const jsonResponse = await Movie.getPosts();
+      const jsonResponse = await MovieApi.getAllMovies();
 
       if (!ignore) {
         console.log("Fetching");

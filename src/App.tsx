@@ -1,7 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import MovieCardGroup from "./components/movie/MovieCardGroup";
-import ReviewForm from "./components/review/ReviewForm";
+import MovieDetail from "./components/movie/MovieDetail";
+import { MovieApi } from "./api/api";
 
 function App() {
   return (
@@ -9,7 +10,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/movies" />} />
         <Route path="/movies" element={<MovieCardGroup />} />
-        <Route path="/movies/:movieId" element={<ReviewForm />} />
+        <Route
+          path="/movies/:movieId"
+          element={<MovieDetail movieApiCall={MovieApi.getMovie} />}
+        />
       </Routes>
       {/* <MovieCardGroup /> */}
     </>
