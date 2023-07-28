@@ -13,6 +13,7 @@ function MovieDetail({ movieApiCall }: MovieDetailProp) {
   let param = useParams();
   const movieId = param.movieId!;
   const [movie, setMovie] = useState<MovieType>();
+  const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [isVisible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function MovieDetail({ movieApiCall }: MovieDetailProp) {
       if (!ignore) {
         console.log("Fetching");
         setMovie(jsonResponse);
+        setReviews(jsonResponse.review);
       }
     }
 
@@ -38,9 +40,9 @@ function MovieDetail({ movieApiCall }: MovieDetailProp) {
     return <h1>Movie is Null</h1>;
   } else {
     return (
-      <div className="container text-center">
+      <div className="container">
         <div className="row align-item-start">
-          <div className="col">
+          <div className="col text-center">
             <h6 className="">{movie.title}</h6>
             <p className="">This is the movie text</p>
             <p className="">{new Date(movie.releaseDate).toDateString()}</p>
@@ -50,13 +52,13 @@ function MovieDetail({ movieApiCall }: MovieDetailProp) {
           </div>
           <div className="col">
             <ul className="list-group">
-              {movie.review.map((item: ReviewType) => (
+              {reviews.map((item: ReviewType) => (
                 <li className="list-group-item">
                   <ReviewPost review={item} />
                 </li>
               ))}
             </ul>
-            {isVisible && <ReviewForm />}
+            {isVisible && <ReviewForm setReviews={setReviews} />}
             <button
               type="button"
               className="btn btn-primary"
@@ -70,6 +72,5 @@ function MovieDetail({ movieApiCall }: MovieDetailProp) {
     );
   }
 }
-//   return <>{getRendering()}</>;
 
 export default MovieDetail;
