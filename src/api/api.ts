@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { MovieType } from "../model/movie.interface";
+import { ReviewType } from "../model/review.interface";
 
 const instance = axios.create({
   baseURL: "http://localhost:8080/api/v1/",
@@ -19,4 +20,18 @@ export const MovieApi = {
     request.get("movie/" + imdbId),
 };
 
-export const Review = {};
+export const ReviewApi = {
+  postReview: (review: ReviewType, movie: MovieType) => {
+    request.post("review/add", {
+      reviewBody: review.reviewBody,
+      datePosted: review.datePosted,
+      movieId: {
+        id: movie.id,
+        imdbId: movie.imdbId,
+        title: movie.title,
+        releaseDate: movie.releaseDate,
+        trailerLink: movie.trailerLink,
+      },
+    });
+  },
+};

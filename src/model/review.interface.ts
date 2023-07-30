@@ -1,5 +1,5 @@
 export interface ReviewType {
-  id: number;
+  id?: number;
   reviewBody?: string;
   datePosted: Date;
 }

@@ -10,10 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/movies" />} />
         <Route path="/movies" element={<MovieCardGroup />} />
-        <Route
-          path="/movies/:movieId"
-          element={<MovieDetail movieApiCall={MovieApi.getMovie} />}
-        />
+        <Route path="/movies/:movieId" element={<MovieDetail />} />
       </Routes>
       {/* <MovieCardGroup /> */}
     </>
