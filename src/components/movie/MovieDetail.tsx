@@ -4,9 +4,13 @@ import { ReviewType } from "../../model/review.interface";
 import ReviewPost from "../review/ReviewPost";
 import { useParams } from "react-router-dom";
 import ReviewForm from "../review/ReviewForm";
-import { MovieApi, ReviewApi } from "../../api/api";
 
-function MovieDetail() {
+interface MovieDetailProp {
+  movieGetApi: (imdbId: string) => Promise<MovieType>;
+  reviewPostApi: (review: ReviewType, movie: MovieType) => void;
+}
+
+function MovieDetail({ movieGetApi, reviewPostApi }: MovieDetailProp) {
   let param = useParams();
   const movieId = param.movieId!;
   const [movie, setMovie] = useState<MovieType>();
@@ -24,16 +28,20 @@ function MovieDetail() {
     let currentDateTime: Date = new Date();
 
     //post the review to the back end api
-    const response = await ReviewApi.postReview(
-      { reviewBody: comment, datePosted: currentDateTime },
-      movie!
-    );
+    try {
+      const response = await reviewPostApi(
+        { reviewBody: comment, datePosted: currentDateTime },
+        movie!
+      );
 
-    //update the review state
-    setReviews([
-      ...reviews,
-      { reviewBody: comment, datePosted: currentDateTime },
-    ]);
+      //update the review state
+      setReviews([
+        ...reviews,
+        { reviewBody: comment, datePosted: currentDateTime },
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
 
     //update the visible state to hide the form
     setVisible(false);
@@ -44,7 +52,7 @@ function MovieDetail() {
     let ignore: boolean = false;
 
     async function getMovieFromBackEnd() {
-      const jsonResponse = await MovieApi.getMovie(movieId);
+      const jsonResponse = await movieGetApi(movieId);
 
       if (!ignore) {
         console.log("Fetching");
