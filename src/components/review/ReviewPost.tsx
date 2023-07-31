@@ -1,4 +1,5 @@
 import { ReviewType } from "../../model/review.interface";
+import "./ReviewPost.css";
 
 interface ReviewFormProp {
   review: ReviewType;
@@ -7,14 +8,21 @@ interface ReviewFormProp {
 function ReviewPost({ review }: ReviewFormProp) {
   return (
     <>
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Comment</h5>
-          <p className="card-text">{review.reviewBody}</p>
+      <div className="comment-thread">
+        <div className="comment" id="comment-1">
+          <div className="comment-heading">
+            <div className="comment-info">
+              <span className="comment-author">comment</span>
+              <p className="m-0">
+                {new Date(review.datePosted).toDateString()}
+              </p>
+            </div>
+          </div>
+
+          <div className="comment-body">
+            <p>{review.reviewBody}</p>
+          </div>
         </div>
-        <footer className="card-footer">
-          {new Date(review.datePosted).toDateString()}
-        </footer>
       </div>
     </>
   );
