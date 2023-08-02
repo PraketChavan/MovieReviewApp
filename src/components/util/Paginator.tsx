@@ -9,6 +9,9 @@ interface PagintorProp {
 
 function Pagintor({ list, limit }: PagintorProp) {
   const maxLimit = Math.ceil(list.length / limit);
+  const pageNumbers: number[] = Array.from(Array(maxLimit).keys());
+
+  console.log(pageNumbers);
 
   const updateList = () => {
     let newList: ReviewType[] = [];
@@ -28,16 +31,15 @@ function Pagintor({ list, limit }: PagintorProp) {
   };
 
   const incrementPageNumber = () => {
-    setPageNumber(pageNumber == maxLimit ? pageNumber : pageNumber + 1);
+    setPageNumber(pageNumber == maxLimit - 1 ? pageNumber : pageNumber + 1);
   };
 
   const [pageNumber, setPageNumber] = useState<number>(0);
-  const currentList = useMemo<ReviewType[]>(updateList, [pageNumber]);
 
   return (
     <>
       <ul className="list-group list-group-flush">
-        {currentList.map((item: ReviewType) => (
+        {updateList().map((item: ReviewType) => (
           <li className="list-group-item">
             <ReviewPost review={item} />
           </li>
@@ -54,11 +56,17 @@ function Pagintor({ list, limit }: PagintorProp) {
               <span aria-hidden="true">&laquo;</span>
             </button>
           </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
+          {pageNumbers.map((i: number) => (
+            <li className="page-item">
+              <button
+                className={"page-link " + (pageNumber == i && "active")}
+                onClick={() => setPageNumber(i)}
+              >
+                {i + 1}
+              </button>
+            </li>
+          ))}
+
           <li className="page-item">
             <button
               className={
