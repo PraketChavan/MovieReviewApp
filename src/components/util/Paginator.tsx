@@ -8,6 +8,8 @@ interface PagintorProp {
 }
 
 function Pagintor({ list, limit }: PagintorProp) {
+  const maxLimit = Math.ceil(list.length / limit);
+
   const updateList = () => {
     let newList: ReviewType[] = [];
     newList.length = limit;
@@ -20,6 +22,15 @@ function Pagintor({ list, limit }: PagintorProp) {
     }
     return newList;
   };
+
+  const decrementPageNumber = () => {
+    setPageNumber(pageNumber == 0 ? 0 : pageNumber - 1);
+  };
+
+  const incrementPageNumber = () => {
+    setPageNumber(pageNumber == maxLimit ? pageNumber : pageNumber + 1);
+  };
+
   const [pageNumber, setPageNumber] = useState<number>(0);
   const currentList = useMemo<ReviewType[]>(updateList, [pageNumber]);
 
@@ -35,15 +46,13 @@ function Pagintor({ list, limit }: PagintorProp) {
       <nav aria-label="Page navigation example">
         <ul className="pagination">
           <li className="page-item">
-            <a
-              className="page-link"
+            <button
+              className={"page-link " + (pageNumber == 0 && "disabled")}
               aria-label="Previous"
-              onClick={() =>
-                setPageNumber(pageNumber == 0 ? 0 : pageNumber - 1)
-              }
+              onClick={decrementPageNumber}
             >
               <span aria-hidden="true">&laquo;</span>
-            </a>
+            </button>
           </li>
           <li className="page-item">
             <a className="page-link" href="#">
@@ -51,13 +60,15 @@ function Pagintor({ list, limit }: PagintorProp) {
             </a>
           </li>
           <li className="page-item">
-            <a
-              className="page-link"
+            <button
+              className={
+                "page-link " + (pageNumber == maxLimit - 1 && "disabled")
+              }
               aria-label="Next"
-              onClick={() => setPageNumber(pageNumber + 1)}
+              onClick={incrementPageNumber}
             >
               <span aria-hidden="true">&raquo;</span>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
