@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { MovieType } from "../../model/movie.interface";
 import { ReviewType } from "../../model/review.interface";
-import ReviewPost from "../review/ReviewPost";
 import { useParams } from "react-router-dom";
 import ReviewForm from "../review/ReviewForm";
+import Pagintor from "../util/Paginator";
 
 interface MovieDetailProp {
   movieGetApi: (imdbId: string) => Promise<MovieType>;
@@ -82,13 +82,7 @@ function MovieDetail({ movieGetApi, reviewPostApi }: MovieDetailProp) {
           </a>
         </div>
         <div className="col">
-          <ul className="list-group list-group-flush">
-            {reviews.map((item: ReviewType) => (
-              <li className="list-group-item">
-                <ReviewPost review={item} />
-              </li>
-            ))}
-          </ul>
+          <Pagintor list={reviews} limit={5} />
           {isVisible && <ReviewForm handleSumbit={handleSumbit} />}
           <button
             type="button"
